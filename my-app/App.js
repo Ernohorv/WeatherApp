@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, StatusBar, ImageBackground } from 'react-native';
 import axios from 'axios';
 import  styles from './style';
-const API_KEY = "4aa93ae05f4ec9a99aaea662e565bd86";
+const API_KEY = "f1779fbd5b8a64760a48bcc2a9137295";
 
 export default class weatherApp extends React.Component {
 
   constructor() {
     super();
     this.state = {
-      temp : 0,
       days : [],
+      temp : 0,
       humidity: 0
       
     }
@@ -37,16 +37,27 @@ export default class weatherApp extends React.Component {
     if(this.state.days.length <= 0){
       this.getForecast(this.state.days);
     }
-    
-    weather = [];
-    //weather['temp'] = this.state.wet;
-    //weather['temp'] = JSON.stringify(response.data.main.temp);
+
     return (
-     <View style={styles.container}>
-       <StatusBar hidden/>
-       <Text>{this.state.temp}</Text>
-       <Text>{this.state.humidity}</Text>
-       </View>
+      <ImageBackground 
+        source={require('./maxresdefault.jpg')}
+        style={styles.container}>
+    
+     <View style={styles.header}>
+        <Text style={styles.headerText}>Budapest</Text>
+     </View>
+
+     <View style={styles.viewStyle}>  
+       <Text style={styles.viewText}>Temperature: </Text>
+       <Text style={styles.viewText}>{this.state.temp}</Text>
+      </View>
+
+      <View style={styles.viewStyle}>
+      <Text style={styles.viewText}>Humidity: </Text>
+      <Text style={styles.viewText}>{this.state.humidity}</Text> 
+      </View>
+
+       </ImageBackground>
     );
   }
 }
