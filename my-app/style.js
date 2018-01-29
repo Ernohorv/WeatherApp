@@ -29,5 +29,9 @@ export default StyleSheet.create({
     viewText: {
         fontSize: 16,
         color: 'white',
+    },
+
+    buttonStyle: {
+        justifyContent: 'center'
     }
 });

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, StatusBar, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, StatusBar, ImageBackground, Button } from 'react-native';
 import axios from 'axios';
 import  styles from './style';
-import fetchWeather from './api'
 
-const API_KEY = "6aa351323e5575ba4f0dc69f03dbd235";
+const API_KEY = "80daae3f0da767e7a33825538591a636";
 
 export default class weatherApp extends React.Component {
 
@@ -24,35 +23,25 @@ export default class weatherApp extends React.Component {
 
   getWeather(){
 
-    //const url ="http://api.openweathermap.org/data/2.5/weather?q=Budapest,mode=json&units=metric&appid="+API_KEY;
     let url = "http://api.openweathermap.org/data/2.5/weather?q=Budapest,mode=json&units=metric&appid=" + API_KEY;
-  
-    axios.get(url).then((response) => {
+
+    axios.get(url).then(function (response) {
 
       if(response.status == 200){
-     // console.log(JSON.stringify(response.data));
-      
-     
-      var weather = [];
-      weather['temp'] = JSON.stringify(response.data.main.temp);
-
-        this.setState({
-          temp: weather['temp'],
-          humidity: JSON.stringify(response.data.main.humidity),
-          pressure: JSON.stringify(response.data.main.pressure),
-          windSpeed: JSON.stringify(response.data.wind.speed),
-          clouds: JSON.stringify(response.data.clouds.all),
-          icon: JSON.stringify(response.data.weather.icon)
-        });
-      }
+    console.log(response.data.main.temp);
+    this.setState({
+       temp:JSON.stringify(result.data.main.temp),
+       humidity: JSON.stringify(response.data.main.humidity),
+       pressure: JSON.stringify(response.data.main.pressure),
+       windSpeed: JSON.stringify(response.data.wind.speed),
+       clouds: JSON.stringify(response.data.clouds.all),
+       icon: JSON.stringify(response.data.weather.icon)
+      });
+    }
     });
-     
-          
   }
   render() {
-    if(this.state.days.length <=0)
-      this.getWeather(this.state.city);
-    
+
     return (
       <ImageBackground 
         source={require('./maxresdefault.jpg')}
@@ -85,6 +74,13 @@ export default class weatherApp extends React.Component {
       <View style={styles.viewStyle}>
       <Text style={styles.viewText}>Clouds: </Text>
       <Text style={styles.viewText}>{this.state.clouds} %</Text> 
+      </View>
+
+      <View style={styles.viewStyle}>
+      <Button
+      onPress={this.getWeather}
+      title = 'Refresh'>
+      </Button>
       </View>
 
        </ImageBackground>
