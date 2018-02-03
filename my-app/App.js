@@ -1,45 +1,42 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, StatusBar, ImageBackground, Button } from 'react-native';
+import { StyleSheet, Text, View, StatusBar, ImageBackground, Button, TextInput } from 'react-native';
 import axios from 'axios';
 import  styles from './style';
 
-const API_KEY = "80daae3f0da767e7a33825538591a636";
+const API_KEY = "e779919406888af3f3e84022f6154886";
+const url = "http://api.openweathermap.org/data/2.5/weather?q=London&units=metric&appid=" + API_KEY;
 
 export default class weatherApp extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       temp : 0,
       humidity: 0,
-      city: 'Budapest',
+      city: '',
       pressure: 0,
-      windSpeed: '',
-      clouds: '',
+      clouds: 0,
       icon: '',
-      days: []
     }
+    this.getWeather = this.getWeather.bind(this); 
   }
-
+  
   getWeather(){
 
-    let url = "http://api.openweathermap.org/data/2.5/weather?q=Budapest,mode=json&units=metric&appid=" + API_KEY;
+    return fetch(url)
+      .then((response) => response.json()) 
+        .then((res) => {
+          this.setState({
+            temp: res.main.temp,
+            humidity: res.main.humidity,
+            pressure: res.main.pressure,
+            city: res.name,
+            clouds: res.clouds.all,
+        })
+      }
+    );
+   }
 
-    axios.get(url).then(function (response) {
-
-      if(response.status == 200){
-    console.log(response.data.main.temp);
-    this.setState({
-       temp:JSON.stringify(result.data.main.temp),
-       humidity: JSON.stringify(response.data.main.humidity),
-       pressure: JSON.stringify(response.data.main.pressure),
-       windSpeed: JSON.stringify(response.data.wind.speed),
-       clouds: JSON.stringify(response.data.clouds.all),
-       icon: JSON.stringify(response.data.weather.icon)
-      });
-    }
-    });
-  }
   render() {
 
     return (
@@ -48,7 +45,7 @@ export default class weatherApp extends React.Component {
         style={styles.container}>
     
      <View style={styles.header}>
-        <Text style={styles.headerText}>Budapest</Text>
+        <Text style={styles.headerText}>{this.state.city}</Text>
      </View>
 
      <View style={styles.viewStyle}>  
@@ -57,30 +54,26 @@ export default class weatherApp extends React.Component {
       </View>
 
       <View style={styles.viewStyle}>
-      <Text style={styles.viewText}>Humidity: </Text>
-      <Text style={styles.viewText}>{this.state.humidity}</Text> 
+        <Text style={styles.viewText}>Humidity: </Text>
+        <Text style={styles.viewText}>{this.state.humidity} </Text>
       </View>
 
       <View style={styles.viewStyle}>
-      <Text style={styles.viewText}>Pressure: </Text>
-      <Text style={styles.viewText}>{this.state.pressure}</Text> 
+        <Text style={styles.viewText}>Pressure: </Text>
+        <Text style={styles.viewText}>{this.state.pressure} Pa</Text>
       </View>
 
       <View style={styles.viewStyle}>
-      <Text style={styles.viewText}>Wind speed: </Text>
-      <Text style={styles.viewText}>{this.state.windSpeed} km/h</Text> 
+        <Text style={styles.viewText}>Clouds: </Text>
+        <Text style={styles.viewText}>{this.state.clouds} </Text>
       </View>
-
+      
       <View style={styles.viewStyle}>
-      <Text style={styles.viewText}>Clouds: </Text>
-      <Text style={styles.viewText}>{this.state.clouds} %</Text> 
-      </View>
-
-      <View style={styles.viewStyle}>
-      <Button
-      onPress={this.getWeather}
-      title = 'Refresh'>
-      </Button>
+        <Button 
+          style={styles.buttonStyle} 
+          title='Refresh'
+          onPress={this.getWeather}>
+          </Button>
       </View>
 
        </ImageBackground>
