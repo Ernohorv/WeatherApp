@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, StatusBar, ImageBackground, Button, TextInput } from 'react-native';
-import axios from 'axios';
 import  styles from './style';
 
 const API_KEY = "e779919406888af3f3e84022f6154886";
-const url = "http://api.openweathermap.org/data/2.5/weather?q=London&units=metric&appid=" + API_KEY;
 
 export default class weatherApp extends React.Component {
 
@@ -23,6 +21,8 @@ export default class weatherApp extends React.Component {
   
   getWeather(){
 
+    let url = "http://api.openweathermap.org/data/2.5/weather?q=" + this.state.city + "&units=metric&appid=" + API_KEY;
+
     return fetch(url)
       .then((response) => response.json()) 
         .then((res) => {
@@ -30,7 +30,6 @@ export default class weatherApp extends React.Component {
             temp: res.main.temp,
             humidity: res.main.humidity,
             pressure: res.main.pressure,
-            city: res.name,
             clouds: res.clouds.all,
         })
       }
@@ -45,7 +44,8 @@ export default class weatherApp extends React.Component {
         style={styles.container}>
     
      <View style={styles.header}>
-        <Text style={styles.headerText}>{this.state.city}</Text>
+        <TextInput style={styles.headerText}
+        onChangeText={(city) => this.setState({city})}/>
      </View>
 
      <View style={styles.viewStyle}>  
