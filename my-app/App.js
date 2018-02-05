@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, StatusBar, ImageBackground, Button, TextInput } from 'react-native';
 import styles from './style';
 import { StackNavigator, } from 'react-navigation';
+import ActionButton from 'react-native-action-button';
 
 const API_KEY = "e779919406888af3f3e84022f6154886";
 
@@ -12,12 +13,17 @@ class HomeScreen extends React.Component {
 
   render() {
     return (
+     
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Home Screen</Text>
         <Button
           title="Go to Details"
           onPress={() => this.props.navigation.navigate('Details')}
         />
+        <ActionButton
+          buttonColor="rgba(231,76,60,1)"
+          onPress={() => {alert("Hi")}}
+          />   
       </View>
     );
   }
