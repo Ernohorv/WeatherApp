@@ -1,66 +1,14 @@
-import React, { Component } from 'react';
-import { Alert, FlatList, StyleSheet, TouchableOpacity, Text, View, StatusBar, ImageBackground, Button, TextInput } from 'react-native';
+import React, { Component, PureComponent } from 'react';
+import { Alert, FlatList, StyleSheet, TouchableOpacity, Text, View, StatusBar, ImageBackground, Button, TextInput, Modal } from 'react-native';
 import styles from './style';
 import { StackNavigator, } from 'react-navigation';
 import ActionButton from 'react-native-action-button';
+import DialogManager, { ScaleAnimation, DialogContent } from 'react-native-dialog-component';
+import DialogComponent from 'react-native-dialog-component/dist/DialogComponent';
+import MyListItem from './MyListItem';
+import HomeScreen from './HomeScreen';
 
 const API_KEY = "e779919406888af3f3e84022f6154886";
-
-class MyListItem extends React.PureComponent {
-  _onPress = () => {
-    Alert.alert(this.props.name);
-  };
-
-  render() {
-    return (
-      <TouchableOpacity onPress={this._onPress}>
-        <View>
-          <Text style={{ fontSize: 30 }}>
-            {this.props.name}
-          </Text>
-        </View>
-      </TouchableOpacity>
-    );
-  }
-}
-
-class HomeScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: [
-        { key: 'Budapest' },
-        { key: 'Los Angeles' },
-        { key: 'New York' },
-        { key: 'Szeged' },
-        { key: 'Sydney' },
-        { key: 'San Francisco' },
-        { key: 'Tokyo' },
-        { key: 'Shanghai' },
-      ],
-      refresh: false
-    };
-  }
-  static navigationOptions = {
-    title: 'Home',
-  };
-
-  render() {
-    return (
-      <View style={{ flex: 1 }}>
-        <FlatList
-          data={this.state.data}
-          extraData={this.state.refresh}
-          renderItem={({ item }) => <MyListItem name={item.key} />}
-        />
-        <ActionButton
-          buttonColor="rgba(200,20,20,0.8)"
-          onPress={() => { this.state.data.push({ key: 'Houston' }); this.setState({refresh: !this.state.refresh}); }}
-        />
-      </View>
-    );
-  }
-}
 
 class DetailsScreen extends React.Component {
   static navigationOptions = {
@@ -134,8 +82,6 @@ class DetailsScreen extends React.Component {
             onPress={this.getWeather}>
           </Button>
         </View>
-
-
 
       </ImageBackground>
     );
