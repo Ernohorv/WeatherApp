@@ -18,16 +18,16 @@ class DetailsScreen extends React.Component {
     this.state = {
       temp: 0,
       humidity: 0,
-      city: '',
       pressure: 0,
       clouds: 0,
       icon: '',
     }
     this.getWeather = this.getWeather.bind(this);
+    this.getWeather();
   }
 
   getWeather() {
-    let url = "http://api.openweathermap.org/data/2.5/weather?q=" + this.state.city + "&units=metric&appid=" + API_KEY;
+    let url = "http://api.openweathermap.org/data/2.5/weather?q=" + this.props.navigation.state.params.cityName + "&units=metric&appid=" + API_KEY;
 
     return fetch(url)
       .then((response) => response.json())
@@ -47,11 +47,6 @@ class DetailsScreen extends React.Component {
       <ImageBackground
         source={require('./maxresdefault.jpg')}
         style={styles.container}>
-
-        <View style={styles.header}>
-          <TextInput style={styles.headerText}
-            onChangeText={(city) => this.setState({ city })} />
-        </View>
 
         <View style={styles.viewStyle}>
           <Text style={styles.viewText}>Temperature: </Text>
