@@ -63,16 +63,22 @@ export default class HomeScreen extends Component {
     submitHandle(){
       this.closeModal();
 <<<<<<< HEAD
+<<<<<<< HEAD
       this.setState({refresh: !this.state.refresh});
       this.state.data.push({key : this.state.temporary});
       this.setState({temporary : ''});
       this.props.navigation.navigate('Details');
 =======
+=======
+>>>>>>> 4ed40de6f65fad6e32093d84fff7f6bc22b3ca0f
       if(this.state.temporary !== ''){
         this.state.data.push({key : this.state.temporary});
         this.setState({data: Array.from(new Set(this.state.data.map(JSON.stringify))).map(JSON.parse)});
         this.setState({refresh: !this.state.refresh});
       }
+<<<<<<< HEAD
+>>>>>>> 4ed40de6f65fad6e32093d84fff7f6bc22b3ca0f
+=======
 >>>>>>> 4ed40de6f65fad6e32093d84fff7f6bc22b3ca0f
     }
     
