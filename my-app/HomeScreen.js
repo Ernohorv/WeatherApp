@@ -62,10 +62,18 @@ export default class HomeScreen extends Component {
 
     submitHandle(){
       this.closeModal();
+<<<<<<< HEAD
       this.setState({refresh: !this.state.refresh});
       this.state.data.push({key : this.state.temporary});
       this.setState({temporary : ''});
       this.props.navigation.navigate('Details');
+=======
+      if(this.state.temporary !== ''){
+        this.state.data.push({key : this.state.temporary});
+        this.setState({data: Array.from(new Set(this.state.data.map(JSON.stringify))).map(JSON.parse)});
+        this.setState({refresh: !this.state.refresh});
+      }
+>>>>>>> 4ed40de6f65fad6e32093d84fff7f6bc22b3ca0f
     }
     
     render() { 
@@ -82,14 +90,15 @@ export default class HomeScreen extends Component {
            <Modal
               visible={this.state.modalVisible}
               animationType={'fade'}
-              onRequestClose={() => this.closeModal()}>
+              onRequestClose={() => this.closeModal()}
+              transparent>
 
             <View style={styles.modalContainer}>
               <View style={styles.innerContainer}>
                 <Text>Enter the name of the city</Text>        
                 <TextInput
-                  underlineColorAndroid='transparent'
-                  onChangeText={(temporary) => this.setState({ temporary })}/>                
+                  onChangeText={(temporary) => this.setState({ temporary })}
+                  value={this.state.temporary}/>                
                 <Button
                     onPress={() => this.submitHandle()}
                     title="Ok">

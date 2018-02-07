@@ -37,11 +37,12 @@ export default StyleSheet.create({
     modalContainer: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor: 'grey',
+        backgroundColor: 'rgba(255,255,255,0.5)',
     },
 
     innerContainer: {
         alignItems: 'center',
+        backgroundColor: 'white'
    },
 
    separatorStyle: {
