@@ -4,8 +4,7 @@ export default StyleSheet.create({
 
     container: {
         flex: 1,
-        width: '100%',
-        height: '100%',
+        justifyContent: 'center',
     },
 
     header: {
@@ -33,5 +32,19 @@ export default StyleSheet.create({
 
     buttonStyle: {
         justifyContent: 'center'
-    }
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        backgroundColor: 'grey',
+    },
+    innerContainer: {
+        alignItems: 'center',
+   },
+   separatorStyle: {
+    height: 0.5,
+    width: "100%",
+    backgroundColor: "#555"
+   },
+
 });

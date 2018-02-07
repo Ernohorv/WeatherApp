@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import {View, Text, FlatList, TextInput} from 'react-native';
+import {View, Text, FlatList, TextInput, Modal, Button, StyleSheet, Alert} from 'react-native';
 import ActionButton from 'react-native-action-button';
 import DialogManager, { ScaleAnimation, DialogContent } from 'react-native-dialog-component';
 import DialogComponent from 'react-native-dialog-component/dist/DialogComponent';
 import MyListItem from './MyListItem';
+import styles from './style';
 
 export default class HomeScreen extends Component {
     constructor(props) {
@@ -20,59 +21,72 @@ export default class HomeScreen extends Component {
           { key: 'Shanghai' },
         ],
         refresh: false,
+        modalVisible: false,
+        temporary: ''
       };
     }
     static navigationOptions = {
       title: 'Home',
     };
   
+    openModal() {
+      this.setState({modalVisible:true});
+    }
+  
+    closeModal() {
+      this.setState({modalVisible:false});
+    }
+
     renderSeparator = () => {
       return (
         <View
-          style={{
-            height: 0.5,
-            width: "100%",
-            backgroundColor: "#555"
-          }}
+          style={styles.separatorStyle}
         />
       );
     };
+
+    submitHandle(){
+      this.closeModal();
+      this.setState({refresh: !this.state.refresh});
+      this.state.data.push({key : this.state.temporary});
+    }
     
     render() { 
       return (
         <View style={{ flex: 1 }}>
+
           <FlatList
             data={this.state.data}
             extraData={this.state.refresh}
             renderItem={({ item }) => <MyListItem name={item.key} />}
             keyExtractor={this.key}
-            ItemSeparatorComponent={this.renderSeparator}
-          />
+            ItemSeparatorComponent={this.renderSeparator}/>
+          
+           <Modal
+              visible={this.state.modalVisible}
+              animationType={'fade'}
+              onRequestClose={() => this.closeModal()}>
+
+            <View style={styles.modalContainer}>
+              <View style={styles.innerContainer}>
+                <Text>Enter the name of the city</Text>        
+                <TextInput
+                  underlineColorAndroid='transparent'
+                  onChangeText={(temporary) => this.setState({ temporary })}/>                
+                <Button
+                    onPress={() => this.submitHandle()}
+                    title="Ok">
+                </Button>
+              </View>            
+            </View>           
+          </Modal>
+
           <ActionButton 
              buttonColor="rgba(200,20,20,0.8)"
              onPress={() =>{
-                DialogManager.show({
-                  title: 'Enter the name of the city',
-                  titleAlign: 'center',
-                  animationDuration: 200,
-                  ScaleAnimation: new ScaleAnimation(),
-                  children: (
-                    <DialogContent>
-                      <View>
-                        <TextInput 
-                          underlineColorAndroid='transparent'
-                          style={{color:'red'}}
-                          onEndEditing={(key) => this.state.data.push({key})}
-                           //this.setState({refresh: !this.state.refresh})
-                        />                                                                
-                        </View>                   
-                    </DialogContent>
-                  ),
-                }, () => {
-                  console.log('callback - show');
-                });
-              }}>  
+              this.openModal()}}>  
           </ActionButton>
+
         </View>
       );
     }
