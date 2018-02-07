@@ -1,5 +1,5 @@
 import React, { Component, PureComponent } from 'react';
-import { View, Text, FlatList, TextInput, Modal, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { AsyncStorage, View, Text, FlatList, TextInput, Modal, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import styles from './style';
 
@@ -25,21 +25,27 @@ export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [
-        { key: 'Budapest' },
-        { key: 'Los Angeles' },
-        { key: 'New York' },
-        { key: 'Szeged' },
-        { key: 'Sydney' },
-        { key: 'San Francisco' },
-        { key: 'Tokyo' },
-        { key: 'Shanghai' },
-      ],
+      data: [],
       refresh: false,
       modalVisible: false,
       temporary: ''
     };
   }
+
+  componentDidMount() {
+    try {
+      const myArray = AsyncStorage.getItem('WeatherApp@names');
+      if (myArray !== null) {
+        this.setState({
+          data: JSON.parse(myArray),
+        });
+        console.log("aww yiss");
+      }
+    } catch (error) {
+      console.log("baj van");
+    }
+  }
+
   static navigationOptions = {
     title: 'Home',
   };
@@ -66,6 +72,10 @@ export default class HomeScreen extends Component {
       this.state.data.push({ key: this.state.temporary });
       this.setState({ data: Array.from(new Set(this.state.data.map(JSON.stringify))).map(JSON.parse) });
       this.setState({ refresh: !this.state.refresh });
+
+      AsyncStorage.setItem('WeatherApp@names', JSON.stringify(this.state.data))
+        .then(json => console.log('success!'))
+        .catch(error => console.log('error!'));
       this.props.navigation.navigate('Details', { cityName: this.state.temporary });
     }
   }
@@ -91,8 +101,7 @@ export default class HomeScreen extends Component {
             <View style={styles.innerContainer}>
               <Text>Enter the name of the city</Text>
               <TextInput
-                onChangeText={(temporary) => this.setState({ temporary })}
-                value={this.state.temporary} />
+                onChangeText={(temporary) => this.setState({ temporary })} />
               <Button
                 onPress={() => this.submitHandle()}
                 title="Ok">
