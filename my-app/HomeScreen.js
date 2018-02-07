@@ -1,10 +1,25 @@
-import React, { Component } from 'react';
-import {View, Text, FlatList, TextInput, Modal, Button, StyleSheet, Alert} from 'react-native';
+import React, { Component, PureComponent } from 'react';
+import {View, Text, FlatList, TextInput, Modal, Button, StyleSheet, TouchableOpacity} from 'react-native';
 import ActionButton from 'react-native-action-button';
-import DialogManager, { ScaleAnimation, DialogContent } from 'react-native-dialog-component';
-import DialogComponent from 'react-native-dialog-component/dist/DialogComponent';
-import MyListItem from './MyListItem';
 import styles from './style';
+
+class MyListItem extends PureComponent {
+  _onPress = () => {
+      this.props.navigation.navigate('Details');
+  };
+
+  render() {
+    return (
+      <TouchableOpacity onPress={this._onPress}>
+        <View>
+          <Text style={{ fontSize: 30 }}>
+            {this.props.name}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+}
 
 export default class HomeScreen extends Component {
     constructor(props) {
@@ -49,6 +64,8 @@ export default class HomeScreen extends Component {
       this.closeModal();
       this.setState({refresh: !this.state.refresh});
       this.state.data.push({key : this.state.temporary});
+      this.setState({temporary : ''});
+      this.props.navigation.navigate('Details');
     }
     
     render() { 

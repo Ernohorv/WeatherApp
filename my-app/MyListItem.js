@@ -1,9 +1,10 @@
 import React, { Component, PureComponent } from 'react';
-import {Text, View, TouchableOpacity} from 'react-native';
-
+import {Text, View, TouchableOpacity, Alert} from 'react-native';
+import {StackNavigator, } from 'react-navigation'; 
+import weatherApp from "./HomeScreen";
 export default class MyListItem extends PureComponent {
     _onPress = () => {
-      Alert.alert(this.props.name);
+        this.props.navigation.navigate('Details');
     };
   
     render() {

@@ -3,8 +3,6 @@ import { Alert, FlatList, StyleSheet, TouchableOpacity, Text, View, StatusBar, I
 import styles from './style';
 import { StackNavigator, } from 'react-navigation';
 import ActionButton from 'react-native-action-button';
-import DialogManager, { ScaleAnimation, DialogContent } from 'react-native-dialog-component';
-import DialogComponent from 'react-native-dialog-component/dist/DialogComponent';
 import MyListItem from './MyListItem';
 import HomeScreen from './HomeScreen';
 
