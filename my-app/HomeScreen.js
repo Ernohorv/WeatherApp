@@ -1,7 +1,8 @@
 import React, { Component, PureComponent } from 'react';
-import { AsyncStorage, View, Text, FlatList, TextInput, Modal, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { AsyncStorage, View, Text, FlatList, TextInput, Modal, StyleSheet, TouchableOpacity, Button } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import styles from './style';
+import { Fab, Icon } from 'native-base';
 
 class MyListItem extends PureComponent {
   _onPress = () => {
@@ -83,7 +84,7 @@ export default class HomeScreen extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-
+       
         <FlatList
           data={this.state.data}
           extraData={this.state.refresh}
@@ -109,7 +110,7 @@ export default class HomeScreen extends Component {
             </View>
           </View>
         </Modal>
-
+      
         <ActionButton
           buttonColor="rgba(200,20,20,0.8)"
           onPress={() => {

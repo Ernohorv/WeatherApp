@@ -1,12 +1,14 @@
 import React, { Component, PureComponent } from 'react';
-import { Alert, FlatList, StyleSheet, TouchableOpacity, Text, View, StatusBar, ImageBackground, Button, TextInput, Modal } from 'react-native';
+import { Alert, FlatList, StyleSheet, TouchableOpacity, View, StatusBar, ImageBackground, TextInput, Modal, DeviceEventEmitter, NativeModules, Button } from 'react-native';
 import styles from './style';
 import { StackNavigator, } from 'react-navigation';
 import ActionButton from 'react-native-action-button';
 import MyListItem from './MyListItem';
 import HomeScreen from './HomeScreen';
+import { Container, Header, Input, Text, Content, Card, CardItem, Body } from 'native-base';
 
 const API_KEY = "e779919406888af3f3e84022f6154886";
+var mSensorManager = require('NativeModules').SensorManager;
 
 class DetailsScreen extends React.Component {
   static navigationOptions = {
@@ -19,8 +21,9 @@ class DetailsScreen extends React.Component {
       temp: 0,
       humidity: 0,
       pressure: 0,
-      clouds: 0,
       icon: '',
+      city: '',
+      description: ''
     }
     this.getWeather = this.getWeather.bind(this);
     this.getWeather();
@@ -36,7 +39,9 @@ class DetailsScreen extends React.Component {
           temp: res.main.temp,
           humidity: res.main.humidity,
           pressure: res.main.pressure,
-          clouds: res.clouds.all,
+          city: res.name,
+          icon: res.weather[0].icon,
+          description: res.weather[0].description
         })
       }
       );
@@ -44,39 +49,50 @@ class DetailsScreen extends React.Component {
 
   render() {
     return (
-      <ImageBackground
-        source={require('./maxresdefault.jpg')}
-        style={styles.container}>
+     
+        <Container>
+          <Header>
+             <Text>{this.state.city}</Text>       
+          </Header>
 
-        <View style={styles.viewStyle}>
-          <Text style={styles.viewText}>Temperature: </Text>
-          <Text style={styles.viewText}>{this.state.temp} °</Text>
-        </View>
+            <Content>
 
-        <View style={styles.viewStyle}>
-          <Text style={styles.viewText}>Humidity: </Text>
-          <Text style={styles.viewText}>{this.state.humidity} </Text>
-        </View>
+            <Card>
+              <CardItem>
+                   <Text>Temperature: </Text>
+                   <Text>{this.state.temp} °</Text>               
+              </CardItem>
+              </Card>
 
-        <View style={styles.viewStyle}>
-          <Text style={styles.viewText}>Pressure: </Text>
-          <Text style={styles.viewText}>{this.state.pressure} Pa</Text>
-        </View>
+              <Card>
+              <CardItem>                
+                   <Text>Humidity: </Text>
+                   <Text>{this.state.humidity} </Text>              
+              </CardItem>
+            </Card>
 
-        <View style={styles.viewStyle}>
-          <Text style={styles.viewText}>Clouds: </Text>
-          <Text style={styles.viewText}>{this.state.clouds} </Text>
-        </View>
+            <Card>
+              <CardItem>                
+                <Text>Pressure: </Text>
+                <Text>{this.state.pressure} Pa</Text>             
+              </CardItem>
+            </Card>
 
-        <View style={styles.viewStyle}>
-          <Button
-            style={styles.buttonStyle}
-            title='Refresh'
-            onPress={this.getWeather}>
+            <Card>
+              <CardItem>                
+                <Text>Description: </Text>
+                <Text>{this.state.description} </Text>           
+              </CardItem>
+            </Card>
+            
+            <Button
+            onPress={this.getWeather
+            } title="Refresh">
+           
           </Button>
-        </View>
 
-      </ImageBackground>
+            </Content>          
+        </Container>
     );
   }
 }
