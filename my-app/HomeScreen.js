@@ -1,8 +1,8 @@
 import React, { Component, PureComponent } from 'react';
-import { AsyncStorage, View, Text, FlatList, TextInput, Modal, StyleSheet, TouchableOpacity, Button } from 'react-native';
+import { AsyncStorage, View, FlatList, Modal, StyleSheet, TouchableOpacity } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import styles from './style';
-import { Fab, Icon } from 'native-base';
+import { Fab, Icon, Container, Header, Input, Text, Content, Card, CardItem, Body, Button, Form, Item, Label } from 'native-base';
 
 class MyListItem extends PureComponent {
   _onPress = () => {
@@ -29,13 +29,14 @@ export default class HomeScreen extends Component {
       data: [],
       refresh: false,
       modalVisible: false,
-      temporary: ''
+      temporary: '',
+      active: 'true'
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     try {
-      const myArray = AsyncStorage.getItem('WeatherApp@names');
+      const myArray = await AsyncStorage.getItem('WeatherApp@names');
       if (myArray !== null) {
         this.setState({
           data: JSON.parse(myArray),
@@ -82,9 +83,8 @@ export default class HomeScreen extends Component {
   }
 
   render() {
-    return (
-      <View style={{ flex: 1 }}>
-       
+    return (  
+      <Container>
         <FlatList
           data={this.state.data}
           extraData={this.state.refresh}
@@ -94,31 +94,49 @@ export default class HomeScreen extends Component {
 
         <Modal
           visible={this.state.modalVisible}
-          animationType={'fade'}
+          animationType={'slide'}
           onRequestClose={() => this.closeModal()}
-          transparent>
+          >
+         
+          <Container>
+            <Header />
+            <Content>
+              <Form>
 
-          <View style={styles.modalContainer}>
-            <View style={styles.innerContainer}>
-              <Text>Enter the name of the city</Text>
-              <TextInput
-                onChangeText={(temporary) => this.setState({ temporary })} />
-              <Button
-                onPress={() => this.submitHandle()}
-                title="Ok">
-              </Button>
-            </View>
-          </View>
+                <Item floatingLabel>
+                  <Label>City</Label>
+                  <Input onChangeText={(temporary) => this.setState({ temporary })} />
+                </Item>
+              </Form>
+                
+              <Button full succes onPress={() => this.submitHandle()}></Button>
+                     
+            </Content>
+          </Container>
         </Modal>
-      
-        <ActionButton
-          buttonColor="rgba(200,20,20,0.8)"
-          onPress={() => {
-            this.openModal()
-          }}>
-        </ActionButton>
 
-      </View>
+        <View style={{ flex: 1 }}>
+        <Fab
+            active={this.state.active}
+            direction="up"
+            containerStyle={{ }}
+            style={{ backgroundColor: '#5067FF' }}
+            position="bottomRight"
+            onPress={() => this.setState({ active: !this.state.active })}>
+              <Icon name="search" />
+
+            <Button style={{ backgroundColor: '#34A34F' }}
+              onPress={() => {this.openModal()}}>
+              <Icon name="add" />
+            </Button>
+
+            <Button style={{ backgroundColor: '#3B5998' }}>
+              <Icon name="remove" />
+            </Button>
+
+          </Fab>
+        </View>
+      </Container>
     );
   }
 }
