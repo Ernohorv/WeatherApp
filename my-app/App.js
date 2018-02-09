@@ -1,5 +1,5 @@
 import React, { Component, PureComponent } from 'react';
-import { Alert, FlatList, StyleSheet, TouchableOpacity, View, StatusBar, ImageBackground, TextInput, Modal, DeviceEventEmitter, NativeModules, Button } from 'react-native';
+import { Image, Alert, FlatList, StyleSheet, TouchableOpacity, View, StatusBar, ImageBackground, TextInput, Modal, DeviceEventEmitter, NativeModules, Button } from 'react-native';
 import styles from './style';
 import { StackNavigator, } from 'react-navigation';
 import ActionButton from 'react-native-action-button';
@@ -49,50 +49,53 @@ class DetailsScreen extends React.Component {
 
   render() {
     return (
-     
-        <Container>
-          <Header>
-             <Text>{this.state.city}</Text>       
-          </Header>
 
-            <Content>
+      <Container>
+        <Header>
+          <Image source={{ uri: 'http://openweathermap.org/img/w/' + this.state.icon + '.png' }}
+            style={{ width: 50, height: 50 }} />
+          <Text>{this.state.city}</Text>
+        </Header>
 
-            <Card>
-              <CardItem>
-                   <Text>Temperature: </Text>
-                   <Text>{this.state.temp} °</Text>               
-              </CardItem>
-              </Card>
+        <Content>
 
-              <Card>
-              <CardItem>                
-                   <Text>Humidity: </Text>
-                   <Text>{this.state.humidity} </Text>              
-              </CardItem>
-            </Card>
 
-            <Card>
-              <CardItem>                
-                <Text>Pressure: </Text>
-                <Text>{this.state.pressure} Pa</Text>             
-              </CardItem>
-            </Card>
+          <Card>
+            <CardItem>
+              <Text>Temperature: </Text>
+              <Text>{this.state.temp} °C</Text>
+            </CardItem>
+          </Card>
 
-            <Card>
-              <CardItem>                
-                <Text>Description: </Text>
-                <Text>{this.state.description} </Text>           
-              </CardItem>
-            </Card>
-            
-            <Button
+          <Card>
+            <CardItem>
+              <Text>Humidity: </Text>
+              <Text>{this.state.humidity} </Text>
+            </CardItem>
+          </Card>
+
+          <Card>
+            <CardItem>
+              <Text>Pressure: </Text>
+              <Text>{this.state.pressure} Pa</Text>
+            </CardItem>
+          </Card>
+
+          <Card>
+            <CardItem>
+              <Text>Description: </Text>
+              <Text>{this.state.description} </Text>
+            </CardItem>
+          </Card>
+
+          <Button
             onPress={this.getWeather
             } title="Refresh">
-           
+
           </Button>
 
-            </Content>          
-        </Container>
+        </Content>
+      </Container>
     );
   }
 }
