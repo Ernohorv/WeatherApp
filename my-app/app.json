@@ -1,5 +1,16 @@
 {
   "expo": {
-    "sdkVersion": "25.0.0"
+    "sdkVersion": "25.0.0",
+    "android": {
+      "package": "com.aut"
+    },
+    "name": "my-app",
+    "slug": "my-app",
+    "version": "0.1.0",
+    "isDetached": true,
+    "detach": {
+      "scheme": "expe963544df89c4e20b098d9c4d30ee244",
+      "androidExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/android-v2.3.0-sdk25.0.0-0c32461b-a7c6-4ddc-b85b-32a80c4f18d9.tar.gz"
+    }
   }
 }
